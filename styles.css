@@ -1,0 +1,177 @@
+:root {
+  --paper: #fffdf7;
+  --ink: #29252a;
+}
+
+* { box-sizing: border-box; }
+
+html, body { width: 100%; height: 100%; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--paper);
+  background-image: radial-gradient(#e8e1d5 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+.top-ui {
+  position: fixed;
+  z-index: 20;
+  top: 14px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 9px 7px 12px;
+  border: 1px solid #e8e1d8;
+  border-radius: 9px;
+  background: rgba(255, 253, 247, .9);
+  box-shadow: 0 3px 12px rgba(71, 57, 35, .08);
+  backdrop-filter: blur(5px);
+}
+
+.top-title { font-size: 13px; font-weight: 700; }
+
+.tool-divider { width: 1px; height: 20px; background: #e2dbd0; }
+.tool-button { min-width: 24px; height: 24px; padding: 0 5px; border: 0; border-radius: 5px; background: transparent; color: #62594e; cursor: pointer; font-size: 16px; }
+.tool-button:hover { background: #f0eadd; }
+.reset-button { font-size: 10px; }
+.zoom-level { min-width: 37px; text-align: center; color: #62594e; font-size: 10px; }
+.color-tools { display: flex; gap: 4px; align-items: center; }
+.color-swatch { width: 15px; height: 15px; padding: 0; border: 2px solid transparent; border-radius: 50%; cursor: pointer; }
+.color-swatch.active { border-color: #62594e; box-shadow: 0 0 0 2px #fffdf7; }
+.coral-swatch { background: #ffc9bd; }.yellow-swatch { background: #ffe796; }.blue-swatch { background: #bfe3fa; }.mint-swatch { background: #c9edcf; }
+.search-tool { display: flex; align-items: center; gap: 4px; width: 112px; height: 25px; padding: 0 7px; border: 1px solid #e2dbd0; border-radius: 6px; background: rgba(255,255,255,.65); color: #9b9083; }
+.search-tool input { width: 100%; border: 0; outline: 0; background: transparent; color: #29252a; font-size: 10px; }
+.organize-button { font-size: 10px; }
+.clear-button { color: #b05252; font-size: 10px; }
+.clear-button:hover { background: #fbe9e5; }
+
+.confirm-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: rgba(48, 40, 31, .22); }
+.confirm-backdrop[hidden] { display: none; }
+.confirm-dialog { width: min(340px, calc(100vw - 32px)); padding: 22px; border: 1px solid #e6ddd1; border-radius: 12px; background: #fffdf7; box-shadow: 0 14px 35px rgba(71, 57, 35, .2); }
+.confirm-dialog h2 { margin: 0 0 7px; color: #29252a; font-size: 19px; }
+.confirm-dialog p { margin: 0; color: #756a5e; font-size: 12px; line-height: 1.5; }
+.confirm-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.dialog-button { padding: 8px 11px; border: 0; border-radius: 6px; font-size: 11px; cursor: pointer; }
+.cancel-button { background: #f0eadd; color: #62594e; }
+.delete-button { background: #b05252; color: white; }
+
+.info-button {
+  display: grid;
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #cfc7bc;
+  border-radius: 50%;
+  background: transparent;
+  color: #62594e;
+  font: 700 13px Georgia, serif;
+  cursor: pointer;
+}
+
+.info-button:hover { background: #f0eadd; }
+
+.info-panel {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  display: grid;
+  gap: 7px;
+  width: 220px;
+  padding: 13px;
+  border: 1px solid #e8e1d8;
+  border-radius: 9px;
+  background: #fffdf7;
+  box-shadow: 0 7px 20px rgba(71, 57, 35, .13);
+  color: #62594e;
+  font-size: 11px;
+}
+
+.info-panel strong { color: #29252a; font-size: 12px; }
+.info-panel[hidden] { display: none; }
+
+#canvas {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+
+#canvas.is-panning { cursor: grabbing; }
+
+#world {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.connections { position: absolute; inset: 0; width: 100vw; height: 100vh; overflow: visible; pointer-events: none; z-index: 0; }
+.connections path { fill: none; stroke: #8d7ed2; stroke-width: 3; stroke-dasharray: 8 7; }
+.connect-tool.active { background: #6254c7; color: white; }
+.group-tool.active { background: #e1b84d; color: #4f3b0b; }
+
+.sticky-note {
+  position: absolute;
+  width: 190px;
+  min-height: 170px;
+  padding: 22px 18px 18px;
+  border: 0;
+  border-radius: 3px;
+  color: #403a32;
+  font: 600 18px/1.35 "Trebuchet MS", "Segoe UI", sans-serif;
+  box-shadow: 4px 7px 16px rgba(71, 57, 35, .16);
+  transform: rotate(var(--tilt));
+  cursor: text;
+  outline: none;
+  overflow-wrap: anywhere;
+  transition: box-shadow .15s, transform .15s;
+  z-index: 1;
+}
+
+.sticky-note:focus {
+  z-index: 5;
+  transform: rotate(0deg) scale(1.03);
+  box-shadow: 7px 12px 24px rgba(71, 57, 35, .22);
+}
+
+.sticky-note::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 38px;
+  height: 7px;
+  background: rgba(255,255,255,.35);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.note-text { min-height: 125px; outline: 0; }
+.move-note { position: absolute; top: 5px; left: 7px; border: 0; background: transparent; color: #74685b; font-size: 13px; line-height: 1; opacity: .5; cursor: grab; }
+.move-note:active { cursor: grabbing; }
+.delete-note { position: absolute; top: 5px; right: 7px; border: 0; background: transparent; color: #74685b; font-size: 16px; line-height: 1; opacity: 0; cursor: pointer; }
+.sticky-note:hover .delete-note, .sticky-note:focus-within .delete-note { opacity: .8; }
+.sticky-note.connect-first { outline: 3px solid #6254c7; outline-offset: 4px; transform: rotate(0deg); }
+.sticky-note.group-selected { outline: 3px solid #e1b84d; outline-offset: 4px; transform: rotate(0deg); }
+.group-label { display: none; position: absolute; right: 22px; top: 7px; max-width: 100px; overflow: hidden; color: #80651c; font: 700 8px/1.1 "Trebuchet MS", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.sticky-note.has-group .group-label { display: block; }
+
+.sticky-note[data-color="coral"] { background: #ffc9bd; }
+.sticky-note[data-color="yellow"] { background: #ffe796; }
+.sticky-note[data-color="blue"] { background: #bfe3fa; }
+.sticky-note[data-color="mint"] { background: #c9edcf; }
+.sticky-note[data-color="lilac"] { background: #dfcff9; }
+.sticky-note[data-color="peach"] { background: #ffd4ad; }
+
+@media (max-width: 600px) {
+  .top-ui { right: 12px; left: 12px; gap: 5px; overflow-x: auto; }
+  .top-title, .search-tool, .organize-button { display: none; }
+  .sticky-note { width: 160px; min-height: 145px; font-size: 16px; }
+}

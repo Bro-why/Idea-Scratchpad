@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Idea Scratchpad</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top-ui">
+    <span class="top-title">Idea Scratchpad</span>
+    <span class="tool-divider"></span>
+    <button class="tool-button" id="undoButton" aria-label="Undo">↶</button>
+    <button class="tool-button" id="redoButton" aria-label="Redo">↷</button>
+    <span class="tool-divider"></span>
+    <button class="tool-button" id="zoomOut" aria-label="Zoom out">−</button>
+    <span class="zoom-level" id="zoomLevel">100%</span>
+    <button class="tool-button" id="zoomIn" aria-label="Zoom in">＋</button>
+    <button class="tool-button reset-button" id="resetZoom" aria-label="Reset zoom">Reset</button>
+    <span class="tool-divider"></span>
+    <button class="tool-button connect-tool" id="connectButton">Connect</button>
+    <button class="tool-button group-tool" id="groupButton">Group</button>
+    <div class="color-tools" aria-label="Sticky note color">
+      <button class="color-swatch coral-swatch active" data-color="coral" aria-label="Coral note"></button>
+      <button class="color-swatch yellow-swatch" data-color="yellow" aria-label="Yellow note"></button>
+      <button class="color-swatch blue-swatch" data-color="blue" aria-label="Blue note"></button>
+      <button class="color-swatch mint-swatch" data-color="mint" aria-label="Mint note"></button>
+    </div>
+    <label class="search-tool"><span>⌕</span><input id="searchInput" placeholder="Search" /></label>
+    <button class="tool-button organize-button" id="organizeButton">Organize</button>
+    <button class="tool-button clear-button" id="clearButton">Clear all</button>
+    <button id="infoButton" class="info-button" aria-label="Show instructions">i</button>
+    <div id="infoPanel" class="info-panel" hidden>
+      <strong>Quick guide</strong>
+      <span>Left-click to add or edit a note</span>
+      <span>Right-click and drag to move around</span>
+      <span>Scroll to zoom in or out</span>
+    </div>
+  </header>
+  <div id="clearDialog" class="confirm-backdrop" hidden>
+    <section class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+      <h2 id="clearTitle">Delete everything?</h2>
+      <p>This will remove all of the sticky notes from your scratchpad.</p>
+      <div class="confirm-actions">
+        <button id="cancelClear" class="dialog-button cancel-button">Cancel</button>
+        <button id="confirmClear" class="dialog-button delete-button">Delete everything</button>
+      </div>
+    </section>
+  </div>
+  <main id="canvas" aria-label="Idea scratchpad canvas"><div id="world"><svg id="connections" class="connections" aria-hidden="true"></svg></div></main>
+  <script src="script.js"></script>
+</body>
+</html>
